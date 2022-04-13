@@ -251,8 +251,8 @@ class USPSParser extends Parser {
     }
 
     final location = [
-      if (state != null && state.isNotEmpty) state,
       if (city != null && city.isNotEmpty) city,
+      if (state != null && state.isNotEmpty) state,
       if (countryName != null && countryName.isNotEmpty) countryName,
     ];
 
@@ -411,11 +411,10 @@ class _DateTime {
       return null;
     }
     var hour = hourStr == null ? 0 : int.parse(hourStr);
-    if ('pm' == midday?.toLowerCase()) {
+    if ('pm' == midday?.toLowerCase() && hour < 12) {
       hour += 12;
-      if (hour >= 24) {
-        hour = 0;
-      }
+    } else if ('am' == midday?.toLowerCase() && hour == 12) {
+      hour = 0;
     }
     final minute = minuteStr == null ? 0 : int.parse(minuteStr);
 
